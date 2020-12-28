@@ -1,0 +1,10 @@
+POST http://localhost:8889/greet
+Content-Type: application/json
+Cache-Control: no-cache
+
+{
+  "id" : "1234",
+  "name" : "Unicorn",
+  "enabled" : false,
+  "phone" : "987654321"
+}
