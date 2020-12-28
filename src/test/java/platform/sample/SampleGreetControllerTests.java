@@ -24,7 +24,16 @@ class SampleGreetControllerTests {
 		mvc.perform(MockMvcRequestBuilders.post("/sample/greet")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content("{\"name\":\"FooName\"}"))
-			.andExpect(status().isOk())
-			.andExpect(content().string(equalTo("Hello! Nice to see you, FooName! Your account is disabled")));
+				.andExpect(status().isOk())
+				.andExpect(content().string(equalTo("Hello! Nice to see you, FooName! Your account is disabled")));
+	}
+
+	@Test
+	void postListOfUserInfo() throws Exception {
+		mvc.perform(MockMvcRequestBuilders.post("/sample/greet/users")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content("[{\"name\":\"FooName\"},{\"name\":\"BarName\"}]"))
+				.andExpect(status().isOk())
+				.andExpect(content().string(equalTo("OK, 2 of users have been logged out!")));
 	}
 }

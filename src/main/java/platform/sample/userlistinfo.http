@@ -1,0 +1,16 @@
+POST http://localhost:8889/greet
+Content-Type: application/json
+Cache-Control: no-cache
+
+[{
+  "id" : "1",
+  "name" : "Unicorn",
+  "enabled" : false,
+  "phone" : "987654321"
+},
+{
+  "id" : "2",
+  "name" : "Lion",
+  "enabled" : false,
+  "phone" : "223345556"
+}]

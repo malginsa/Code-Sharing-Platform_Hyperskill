@@ -1,4 +1,4 @@
-POST http://localhost:8889/greet
+POST http://localhost:8889/sample/greet
 Content-Type: application/json
 Cache-Control: no-cache
 
