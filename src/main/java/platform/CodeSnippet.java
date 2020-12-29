@@ -1,12 +1,8 @@
 package platform;
 
-public class JsonWrapper {
+public class CodeSnippet {
 
     private String code;
-
-    public JsonWrapper(String code) {
-        this.code = code;
-    }
 
     public String getCode() {
         return code;
