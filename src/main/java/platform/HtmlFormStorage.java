@@ -13,6 +13,9 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class HtmlFormStorage {
 
+    private HtmlFormStorage() {
+    }
+
     public static String getCodeForm(CodeRepository codeRepository) {
         return "<html>" +
                     "<head>" +
@@ -22,7 +25,7 @@ public class HtmlFormStorage {
                     "<body>" +
                         "<pre id=\"code_snippet\">" + codeRepository.getCode() + "</pre>" +
                         "<span id=\"load_date\"> " +
-                            codeRepository.getDate().toString().replaceFirst("T"," ") +
+                            codeRepository.getDate().toString() +
                         "</span>" +
                     "</body>" +
                 "</html>";

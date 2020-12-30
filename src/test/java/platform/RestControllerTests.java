@@ -34,7 +34,7 @@ class RestControllerTests {
 				.andExpect(content().string(equalTo("<html><head><meta charset=\"utf-8\">" +
 						"<title>Code</title></head>" +
 						"<body><pre id=\"code_snippet\">Wonder Code!</pre><span id=\"load_date\">" +
-						" 2020-11-11 11:11:11</span></body></html>")));
+						" 2020-11-11T11:11:11</span></body></html>")));
 	}
 
 	@Test

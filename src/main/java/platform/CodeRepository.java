@@ -4,14 +4,13 @@ import java.time.LocalDateTime;
 
 public class CodeRepository {
 
-    public static CodeRepository currentCode;
+    public static final CodeRepository currentCode = new CodeRepository();
 
     static {
         resetCurrentCodeToSample();
     }
 
     public static void resetCurrentCodeToSample() {
-        currentCode = new CodeRepository();
         currentCode.setCode("Wonder Code!");
         currentCode.setDate(LocalDateTime.parse("2020-11-11T11:11:11"));
     }
