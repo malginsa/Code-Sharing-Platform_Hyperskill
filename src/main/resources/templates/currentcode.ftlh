@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html lang="en">
 <head>
-    <meta charset=\"utf-8\">
+    <meta charset="utf-8">
     <title>Code</title>
     </head>
 <body>
