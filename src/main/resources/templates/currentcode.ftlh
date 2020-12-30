@@ -1,0 +1,11 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset=\"utf-8\">
+    <title>Code</title>
+    </head>
+<body>
+    <pre id="code_snippet">${code}</pre>
+    <span id="load_date">${date}</span>
+</body>
+</html>
