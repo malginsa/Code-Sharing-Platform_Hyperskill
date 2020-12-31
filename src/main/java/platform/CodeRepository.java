@@ -1,46 +1,42 @@
 package platform;
 
+import org.springframework.stereotype.Component;
+
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
+@Component
 public class CodeRepository {
+    public static final int LATEST_SIZE = 10;
 
-    public static final CodeRepository currentCode = new CodeRepository();
+    private static int nextId = 1;
 
-    static {
-        resetCurrentCodeToSample();
+    List<Code> repo = new ArrayList<>();
+
+    Comparator<Code> inverseIdComparator = new Comparator<>() {
+        @Override
+        public int compare(Code o1, Code o2) {
+            return Integer.compare(o2.getId(), o1.getId());
+        }
+    };
+
+    public Optional<Code> get(int id) {
+        return repo.stream().filter(el -> el.getId() == id).findFirst();
     }
 
-    public static void resetCurrentCodeToSample() {
-        currentCode.setCode("Wonder Code!");
-        currentCode.setDate(LocalDateTime.parse("2020-11-11T11:11:11"));
+    public int add(CodeDTO codeDTO) {
+        repo.add(new Code(nextId, codeDTO.getCode(), LocalDateTime.now().withNano(0)));
+        return nextId++;
     }
 
-    private String code;
-    private LocalDateTime date;
-
-    public static CodeRepository getCurrentCode() {
-        return currentCode;
+    public List<Code> getTenLatest() {
+        return repo.stream()
+                .sorted(inverseIdComparator)
+                .limit(LATEST_SIZE)
+                .collect(Collectors.toList());
     }
-
-    public static void updateCurrentCode(CodeSnippet codeSnippet) {
-        currentCode.setCode(codeSnippet.getCode());
-        currentCode.setDate(LocalDateTime.now().withNano(0));
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public LocalDateTime getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDateTime date) {
-        this.date = date;
-    }
-
 }

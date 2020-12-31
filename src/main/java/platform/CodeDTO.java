@@ -1,6 +1,6 @@
 package platform;
 
-public class CodeSnippet {
+public class CodeDTO {
 
     private String code;
 
