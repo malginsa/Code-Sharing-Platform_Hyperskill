@@ -17,10 +17,10 @@ public class CodeRepository {
 
     List<Code> repo = new ArrayList<>();
 
-    Comparator<Code> inverseIdComparator = new Comparator<>() {
+    Comparator<Code> inverseDateComparator = new Comparator<>() {
         @Override
-        public int compare(Code o1, Code o2) {
-            return Integer.compare(o2.getId(), o1.getId());
+        public int compare(Code code1, Code code2) {
+            return code2.getDate().compareTo(code1.getDate());
         }
     };
 
@@ -29,13 +29,13 @@ public class CodeRepository {
     }
 
     public int add(CodeDTO codeDTO) {
-        repo.add(new Code(nextId, codeDTO.getCode(), LocalDateTime.now().withNano(0)));
+        repo.add(new Code(nextId, codeDTO.getCode(), LocalDateTime.now()));
         return nextId++;
     }
 
     public List<Code> getTenLatest() {
         return repo.stream()
-                .sorted(inverseIdComparator)
+                .sorted(inverseDateComparator)
                 .limit(LATEST_SIZE)
                 .collect(Collectors.toList());
     }

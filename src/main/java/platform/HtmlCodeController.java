@@ -17,7 +17,7 @@ public class HtmlCodeController {
     public String test(@PathVariable int id, ModelMap model) {
         Code code = codeRepository.get(id).orElseThrow();
         model.addAttribute("code", code.getCode());
-        model.addAttribute("date", code.getDate());
+        model.addAttribute("date", code.getFormattedDate());
         return "singlecode";
     }
 
@@ -31,5 +31,4 @@ public class HtmlCodeController {
         model.addAttribute("codes", codeRepository.getTenLatest());
         return "listofcodes";
     }
-
 }

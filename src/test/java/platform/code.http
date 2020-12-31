@@ -1,0 +1,29 @@
+###
+POST http://localhost:8889/api/code/new
+Content-Type: application/json
+Cache-Control: no-cache
+
+{ "code": "11111111111111111"}
+
+###
+POST http://localhost:8889/api/code/new
+Content-Type: application/json
+Cache-Control: no-cache
+
+{ "code": "2222222222222222222"}
+
+###
+GET http://localhost:8889/code/1
+
+###
+GET http://localhost:8889/api/code/1
+
+###
+GET http://localhost:8889/code/new
+
+###
+GET http://localhost:8889/code/latest
+
+###
+GET http://localhost:8889/api/code/latest
+

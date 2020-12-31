@@ -3,12 +3,12 @@
 <head>
     <meta charset="utf-8">
     <title>Latest</title>
-    </head>
+</head>
 <body>
-    <#list codes as codeElement>
-        <span id="load_date">${codeElement.date}</span>
-        <pre id="code_snippet">${codeElement.code}</pre>
-        <br>
-    </#list>
+<#list codes as codeSnippet>
+    <span id="load_date">${codeSnippet.getFormattedDate()}</span>
+    <pre id="code_snippet">${codeSnippet.code}</pre>
+    <br>
+</#list>
 </body>
 </html>
