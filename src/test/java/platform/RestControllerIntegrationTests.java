@@ -19,7 +19,6 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -114,16 +113,5 @@ class RestControllerIntegrationTests {
 				.POST(HttpRequest.BodyPublishers.ofString("{\"code\":\"" + code + "\"}"))
 				.build();
 		client.send(request, HttpResponse.BodyHandlers.discarding());
-	}
-
-	private CodeRepository getCodeRepository(HttpResponse<String> response) throws JsonProcessingException {
-		ObjectMapper objectMapper = new TimeAwareObjectMapper();
-		return objectMapper.readValue(response.body(), CodeRepository.class);
-	}
-
-	class TimeAwareObjectMapper extends ObjectMapper {
-		public TimeAwareObjectMapper() {
-			registerModule(new JavaTimeModule());
-		}
 	}
 }
