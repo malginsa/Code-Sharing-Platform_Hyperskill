@@ -6,8 +6,8 @@
 </head>
 <body>
 <#list codes as codeSnippet>
-    <span id="load_date">${codeSnippet.getFormattedDate()}</span>
-    <pre id="code_snippet">${codeSnippet.code}</pre>
+    <span class="load_date">${codeSnippet.getFormattedDate()}</span>
+    <pre class="code_snippet">${codeSnippet.code}</pre>
     <br>
 </#list>
 </body>

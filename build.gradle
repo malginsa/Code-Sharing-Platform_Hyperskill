@@ -17,6 +17,8 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	compile 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-freemarker'
+	testImplementation 'org.jsoup:jsoup:1.13.1'
+	testCompile group: 'org.json', name: 'json', version: '20201115'
 }
 
 test {

@@ -24,6 +24,11 @@ public class CodeRepository {
         }
     };
 
+    public void clear() {
+        repo.clear();
+        nextId = 1;
+    }
+
     public Optional<Code> get(int id) {
         return repo.stream().filter(el -> el.getId() == id).findFirst();
     }
