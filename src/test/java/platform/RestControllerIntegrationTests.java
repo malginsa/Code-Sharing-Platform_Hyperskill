@@ -30,7 +30,7 @@ class RestControllerIntegrationTests {
 
 	private static final int FIRST_ID = 1;
 
-	private static final Pattern CODE_SNIPPET = Pattern.compile("<pre id=\"code_snippet\">(.+)</pre>");
+	private static final Pattern CODE_SNIPPET = Pattern.compile("<pre id=\"code_snippet\"><code>(.+)</code></pre>");
 	private static final Pattern DATE_SNIPPET = Pattern.compile("<span id=\"load_date\">(.+)</span>");
 
 	@LocalServerPort

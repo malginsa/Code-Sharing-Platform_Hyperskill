@@ -3,14 +3,14 @@ POST http://127.0.0.1:8889/api/code/new
 Content-Type: application/json
 Cache-Control: no-cache
 
-{ "code": "11111111111111111"}
+{ "code": "package platform;\n\npublic class CodeDTO {\n\n    private String code;\n\n    public String getCode() {\n        return code;\n    }\n\n    public void setCode(String code) {\n        this.code = code;\n    }\n}"}
 
 ###
 POST http://127.0.0.1:8889/api/code/new
 Content-Type: application/json
 Cache-Control: no-cache
 
-{ "code": "2222222222222222222"}
+{ "code": "public class IdDTO {\n    private String id;\n}"}
 
 ###
 GET http://127.0.0.1:8889/code/1
