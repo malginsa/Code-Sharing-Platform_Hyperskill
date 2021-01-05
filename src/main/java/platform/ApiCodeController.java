@@ -21,7 +21,7 @@ public class ApiCodeController {
     private CodeRepository codeRepository;
 
     @GetMapping(path = "/api/code/{id}")
-    public Code getCodeInJson(@PathVariable int id) {
+    public CodeSnippet getCodeInJson(@PathVariable int id) {
         return codeRepository.get(id).orElseThrow();
     }
 
@@ -32,7 +32,7 @@ public class ApiCodeController {
     }
 
     @GetMapping(path = "/api/code/latest")
-    public List<Code> getTenLatest() {
+    public List<CodeSnippet> getTenLatest() {
         return codeRepository.getTenLatest();
     }
 }

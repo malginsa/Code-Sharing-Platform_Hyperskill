@@ -6,23 +6,23 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @JsonSerialize(using = CodeSerializer.class)
-public class Code {
+public class CodeSnippet {
 
     public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     private int id;
     private String code;
     private LocalDateTime date;
 
-    public Code() {
+    public CodeSnippet() {
     }
 
-    public Code(int id, String code, LocalDateTime date) {
+    public CodeSnippet(int id, String code, LocalDateTime date) {
         this.id = id;
         this.code = code;
         this.date = date;
     }
 
-    public Code(int id, String code) {
+    public CodeSnippet(int id, String code) {
         this.id = id;
         this.code = code;
         this.date = LocalDateTime.now();

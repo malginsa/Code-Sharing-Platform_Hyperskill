@@ -11,15 +11,15 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
 @SpringBootTest
-class CodeSerializerTest {
+class CodeSnippetSerializerTest {
 
 	@Resource
 	private ObjectMapper objectMapper;
 
 	@Test
 	public void getCustomSerializedCodeTest() throws Exception {
-		Code code = new Code(1, "Wonder Code!", LocalDateTime.parse("2020-11-11T11:11:11.1111111"));
-		String string = objectMapper.writeValueAsString(code);
+		CodeSnippet codeSnippet = new CodeSnippet(1, "Wonder Code!", LocalDateTime.parse("2020-11-11T11:11:11.1111111"));
+		String string = objectMapper.writeValueAsString(codeSnippet);
 		assertThat(string, equalTo("{\"code\":\"Wonder Code!\",\"date\":\"2020-11-11 11:11:11\"}"));
 	}
 }

@@ -15,9 +15,9 @@ public class HtmlCodeController {
 
     @GetMapping(path = "/code/{id}")
     public String test(@PathVariable int id, ModelMap model) {
-        Code code = codeRepository.get(id).orElseThrow();
-        model.addAttribute("code", code.getCode());
-        model.addAttribute("date", code.getFormattedDate());
+        CodeSnippet codeSnippet = codeRepository.get(id).orElseThrow();
+        model.addAttribute("code", codeSnippet.getCode());
+        model.addAttribute("date", codeSnippet.getFormattedDate());
         return "singlecode";
     }
 
