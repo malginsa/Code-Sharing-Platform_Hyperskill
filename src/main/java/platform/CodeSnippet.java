@@ -2,27 +2,38 @@ package platform;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import static javax.persistence.GenerationType.AUTO;
+
+@Entity
 @JsonSerialize(using = CodeSerializer.class)
 public class CodeSnippet {
 
     public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+    @Id
+    @GeneratedValue(strategy = AUTO)
     private int id;
+
     private String code;
+
     private LocalDateTime date;
 
     public CodeSnippet() {
     }
 
-    public CodeSnippet(int id, String code, LocalDateTime date) {
+    public CodeSnippet(String code, LocalDateTime date) {
         this.id = id;
         this.code = code;
         this.date = date;
     }
 
-    public CodeSnippet(int id, String code) {
+    public CodeSnippet(String code) {
         this.id = id;
         this.code = code;
         this.date = LocalDateTime.now();
@@ -54,5 +65,14 @@ public class CodeSnippet {
 
     public void setDate(LocalDateTime date) {
         this.date = date;
+    }
+
+    @Override
+    public String toString() {
+        return "CodeSnippet{" +
+                "id=" + id +
+                ", code='" + code + '\'' +
+                ", date=" + date +
+                '}';
     }
 }

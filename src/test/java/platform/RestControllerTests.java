@@ -27,12 +27,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class RestControllerTests {
 
+	public static final String API_CODE_NEW_PATH = "/api/code/new";
+	public static final String CODE_NEW_PATH = "/code/new";
 	@Autowired
 	private MockMvc mvc;
 
 	@Test
 	void postNewCodeTest() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.post("/api/code/new")
+		mvc.perform(MockMvcRequestBuilders.post(API_CODE_NEW_PATH)
 				.contentType(APPLICATION_JSON)
 				.content("{\"code\":\"Perfect code!\"}"))
 				.andExpect(status().isOk())
@@ -43,7 +45,7 @@ class RestControllerTests {
 
 	@Test
 	void getNewCode() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.get("/code/new").accept(TEXT_HTML))
+		mvc.perform(MockMvcRequestBuilders.get(CODE_NEW_PATH).accept(TEXT_HTML))
 				.andExpect(status().isOk())
 				.andExpect(content().string(equalTo(readTemplate("/templates/newcode.ftlh"))));
 	}

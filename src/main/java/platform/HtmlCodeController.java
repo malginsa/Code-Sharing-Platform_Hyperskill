@@ -15,7 +15,7 @@ public class HtmlCodeController {
 
     @GetMapping(path = "/code/{id}")
     public String test(@PathVariable int id, ModelMap model) {
-        CodeSnippet codeSnippet = codeRepository.get(id).orElseThrow();
+        CodeSnippet codeSnippet = codeRepository.findById(id).orElseThrow();
         model.addAttribute("code", codeSnippet.getCode());
         model.addAttribute("date", codeSnippet.getFormattedDate());
         return "singlecode";
@@ -28,7 +28,7 @@ public class HtmlCodeController {
 
     @GetMapping(path = "/code/latest")
     public String getTenLatest(ModelMap model) {
-        model.addAttribute("codes", codeRepository.getTenLatest());
+        model.addAttribute("codes", codeRepository.findTop10ByOrderByDateDesc());
         return "listofcodes";
     }
 }

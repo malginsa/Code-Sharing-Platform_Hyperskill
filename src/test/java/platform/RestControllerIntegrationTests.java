@@ -1,8 +1,5 @@
 package platform;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
@@ -28,10 +25,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 @AutoConfigureMockMvc
 class RestControllerIntegrationTests {
 
-	private static final int FIRST_ID = 1;
-
 	private static final Pattern CODE_SNIPPET = Pattern.compile("<pre id=\"code_snippet\"><code>(.+)</code></pre>");
 	private static final Pattern DATE_SNIPPET = Pattern.compile("<span id=\"load_date\">(.+)</span>");
+	public static final String API_CODE_NEW_PATH = "api/code/new";
+	public static final String APPLICATION_JSON = "application/json";
+	public static final String API_CODE_PATH = "api/code/";
+	public static final String CODE_LATEST_PATH = "code/latest";
+	public static final String API_CODE_LATEST_PATH = "api/code/latest";
+	public static final String CODE_SAMPLE_1 = "Perfect Code!";
+	public static final String CODE_SAMPLE_2 = "Wonder Code!";
 
 	@LocalServerPort
 	private int port;
@@ -43,7 +45,7 @@ class RestControllerIntegrationTests {
 	@BeforeEach
 	public void setUp() throws Exception {
 		this.baseUrl = new URL("http://localhost:" + port + "/").toString();
-		codeRepository.clear();
+		codeRepository.deleteAll();
 		client = HttpClient.newBuilder().build();
 	}
 
@@ -52,36 +54,41 @@ class RestControllerIntegrationTests {
 
 	@Test
 	public void postCodeSnippetAndGetTheSameViaApiAndHttp() throws Exception {
-		postCodeSnippet("api/code/new", "application/json", "Perfect Code!");
-		String expectedDate = codeRepository.get(FIRST_ID).orElseThrow().getFormattedDate();
-		HttpResponse<String> response = sendGetRequest("api/code/" + FIRST_ID, "application/json");
-		assertThat(response.body()).isEqualTo("{\"code\":\"Perfect Code!\",\"date\":\"" + expectedDate + "\"}");
-		response = sendGetRequest("code/" + FIRST_ID, "text/html;charset=UTF-8");
+		HttpResponse<String> response = postCodeSnippet(API_CODE_NEW_PATH, APPLICATION_JSON, CODE_SAMPLE_1);
+		int id = getIdFromResponse(response);
+		String expectedDate = codeRepository.findById(id).orElseThrow().getFormattedDate();
+		response = sendGetRequest(API_CODE_PATH + id, APPLICATION_JSON);
+		assertThat(response.body()).isEqualTo("{\"code\":\"" + CODE_SAMPLE_1 + "\",\"date\":\"" + expectedDate + "\"}");
+		response = sendGetRequest("code/" + id, "text/html;charset=UTF-8");
 		String body = response.body();
-		checkPatternMatch(CODE_SNIPPET, body, "Perfect Code!");
+		checkPatternMatch(CODE_SNIPPET, body, CODE_SAMPLE_1);
 		checkPatternMatch(DATE_SNIPPET, body, expectedDate);
 	}
 
 	@Test
 	public void postTwoCodeSnippetAndCheckHtmlTwoLatest() throws Exception {
-		postCodeSnippet("api/code/new", "application/json", "Perfect Code!");
-		postCodeSnippet("api/code/new", "application/json", "Wonder Code!");
-		HttpResponse<String> response = sendGetRequest("code/latest", "application/json");
+		postCodeSnippet(API_CODE_NEW_PATH, APPLICATION_JSON, CODE_SAMPLE_1);
+		postCodeSnippet(API_CODE_NEW_PATH, APPLICATION_JSON, CODE_SAMPLE_2);
+		HttpResponse<String> response = sendGetRequest(CODE_LATEST_PATH, APPLICATION_JSON);
 		List<String> load_date = getElementsByClassFromHtml(response, "code_snippet");
-		assertThat(load_date.get(0)).isEqualTo("Wonder Code!");
-		assertThat(load_date.get(1)).isEqualTo("Perfect Code!");
+		assertThat(load_date.get(0)).isEqualTo(CODE_SAMPLE_2);
+		assertThat(load_date.get(1)).isEqualTo(CODE_SAMPLE_1);
 	}
 
 	@Test
 	public void postTwoCodeSnippetAndCheckApiTwoLatest() throws Exception {
-		postCodeSnippet("api/code/new", "application/json", "Perfect Code!");
-		postCodeSnippet("api/code/new", "application/json", "Wonder Code!");
-		HttpResponse<String> response = sendGetRequest("api/code/latest", "application/json");
+		postCodeSnippet(API_CODE_NEW_PATH, APPLICATION_JSON, CODE_SAMPLE_1);
+		postCodeSnippet(API_CODE_NEW_PATH, APPLICATION_JSON, CODE_SAMPLE_2);
+		HttpResponse<String> response = sendGetRequest(API_CODE_LATEST_PATH, APPLICATION_JSON);
 		JSONObject jsonObject = new JSONObject("{\"body\":" + response.body() + "}");
 		JSONArray codeSnippets = jsonObject.getJSONArray("body");
-		codeSnippets.getJSONObject(0).getString("code");
-		assertThat(codeSnippets.getJSONObject(0).getString("code")).isEqualTo("Wonder Code!");
-		assertThat(codeSnippets.getJSONObject(1).getString("code")).isEqualTo("Perfect Code!");
+		assertThat(codeSnippets.getJSONObject(0).getString("code")).isEqualTo(CODE_SAMPLE_2);
+		assertThat(codeSnippets.getJSONObject(1).getString("code")).isEqualTo(CODE_SAMPLE_1);
+	}
+
+	private int getIdFromResponse(HttpResponse<String> response) {
+		JSONObject jsonObject = new JSONObject(response.body());
+		return Integer.parseInt(jsonObject.getString("id"));
 	}
 
 	private List<String> getElementsByClassFromHtml(HttpResponse<String> response, String className) {
@@ -105,13 +112,13 @@ class RestControllerIntegrationTests {
 		return response;
 	}
 
-	private void postCodeSnippet(String suffixUrl, String contentType, String code)
+	private HttpResponse<String> postCodeSnippet(String suffixUrl, String contentType, String code)
 			throws java.io.IOException, InterruptedException {
 		HttpRequest request = HttpRequest.newBuilder()
 				.uri(URI.create(baseUrl + suffixUrl))
 				.header("Content-Type", contentType)
 				.POST(HttpRequest.BodyPublishers.ofString("{\"code\":\"" + code + "\"}"))
 				.build();
-		client.send(request, HttpResponse.BodyHandlers.discarding());
+		return client.send(request, HttpResponse.BodyHandlers.ofString());
 	}
 }

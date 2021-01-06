@@ -22,17 +22,17 @@ public class ApiCodeController {
 
     @GetMapping(path = "/api/code/{id}")
     public CodeSnippet getCodeInJson(@PathVariable int id) {
-        return codeRepository.get(id).orElseThrow();
+        return codeRepository.findById(id).orElseThrow();
     }
 
     @PostMapping(path = "/api/code/new", consumes = "application/json")
     public ResponseEntity<String> postNewCode(@RequestBody CodeDTO codeDTO) {
-        int id = codeRepository.add(codeDTO);
+        int id = codeRepository.save(new CodeSnippet(codeDTO.getCode())).getId();
         return ResponseEntity.ok().headers(HTML_HTTP_HEADER).body("{ \"id\" : \"" + id + "\" }");
     }
 
     @GetMapping(path = "/api/code/latest")
     public List<CodeSnippet> getTenLatest() {
-        return codeRepository.getTenLatest();
+        return codeRepository.findTop10ByOrderByDateDesc();
     }
 }
