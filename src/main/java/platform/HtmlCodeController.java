@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.annotation.Resource;
+import java.util.UUID;
 
 @Controller
 public class HtmlCodeController {
@@ -13,9 +14,9 @@ public class HtmlCodeController {
     @Resource
     private CodeRepository codeRepository;
 
-    @GetMapping(path = "/code/{id}")
-    public String test(@PathVariable int id, ModelMap model) {
-        CodeSnippet codeSnippet = codeRepository.findById(id).orElseThrow();
+    @GetMapping(path = "/code/{uuid}")
+    public String test(@PathVariable UUID uuid, ModelMap model) {
+        CodeSnippet codeSnippet = codeRepository.findById(uuid).orElseThrow();
         model.addAttribute("code", codeSnippet.getCode());
         model.addAttribute("date", codeSnippet.getFormattedDate());
         return "singlecode";

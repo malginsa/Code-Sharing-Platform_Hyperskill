@@ -13,10 +13,10 @@ Cache-Control: no-cache
 { "code": "public class IdDTO {\n    private String id;\n}"}
 
 ###
-GET http://127.0.0.1:8889/code/1
+GET http://127.0.0.1:8889/code/d064fd9f-46bf-45cb-9b19-2ed126a7a0ab
 
 ###
-GET http://127.0.0.1:8889/api/code/1
+GET http://127.0.0.1:8889/api/code/d064fd9f-46bf-45cb-9b19-2ed126a7a0ab
 
 ###
 GET http://127.0.0.1:8889/code/new
@@ -26,3 +26,6 @@ GET http://127.0.0.1:8889/code/latest
 
 ###
 GET http://127.0.0.1:8889/api/code/latest
+
+###
+POST http://127.0.0.1:8889/actuator/shutdown

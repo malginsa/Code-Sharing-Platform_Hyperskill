@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.regex.Pattern;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -39,7 +38,7 @@ class RestControllerTests {
 				.content("{\"code\":\"Perfect code!\"}"))
 				.andExpect(status().isOk())
 				.andExpect(result ->
-						assertThat(getIdDTO(result.getResponse().getContentAsString(), IdDTO.class).isIdValid())
+						assertThat(getIdDTO(result.getResponse().getContentAsString(), UuidDto.class).isIdValid())
 								.isTrue());
 	}
 

@@ -16,6 +16,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -55,11 +56,11 @@ class RestControllerIntegrationTests {
 	@Test
 	public void postCodeSnippetAndGetTheSameViaApiAndHttp() throws Exception {
 		HttpResponse<String> response = postCodeSnippet(API_CODE_NEW_PATH, APPLICATION_JSON, CODE_SAMPLE_1);
-		int id = getIdFromResponse(response);
-		String expectedDate = codeRepository.findById(id).orElseThrow().getFormattedDate();
-		response = sendGetRequest(API_CODE_PATH + id, APPLICATION_JSON);
+		String uuid = getIdFromResponse(response);
+		String expectedDate = codeRepository.findById(UUID.fromString(uuid)).orElseThrow().getFormattedDate();
+		response = sendGetRequest(API_CODE_PATH + uuid, APPLICATION_JSON);
 		assertThat(response.body()).isEqualTo("{\"code\":\"" + CODE_SAMPLE_1 + "\",\"date\":\"" + expectedDate + "\"}");
-		response = sendGetRequest("code/" + id, "text/html;charset=UTF-8");
+		response = sendGetRequest("code/" + uuid, "text/html;charset=UTF-8");
 		String body = response.body();
 		checkPatternMatch(CODE_SNIPPET, body, CODE_SAMPLE_1);
 		checkPatternMatch(DATE_SNIPPET, body, expectedDate);
@@ -86,9 +87,9 @@ class RestControllerIntegrationTests {
 		assertThat(codeSnippets.getJSONObject(1).getString("code")).isEqualTo(CODE_SAMPLE_1);
 	}
 
-	private int getIdFromResponse(HttpResponse<String> response) {
+	private String getIdFromResponse(HttpResponse<String> response) {
 		JSONObject jsonObject = new JSONObject(response.body());
-		return Integer.parseInt(jsonObject.getString("id"));
+		return jsonObject.getString("uuid");
 	}
 
 	private List<String> getElementsByClassFromHtml(HttpResponse<String> response, String className) {

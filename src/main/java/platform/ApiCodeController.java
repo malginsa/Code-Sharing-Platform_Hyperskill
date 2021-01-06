@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 public class ApiCodeController {
@@ -20,15 +21,15 @@ public class ApiCodeController {
     @Resource
     private CodeRepository codeRepository;
 
-    @GetMapping(path = "/api/code/{id}")
-    public CodeSnippet getCodeInJson(@PathVariable int id) {
-        return codeRepository.findById(id).orElseThrow();
+    @GetMapping(path = "/api/code/{uuid}")
+    public CodeSnippet getCodeInJson(@PathVariable UUID uuid) {
+        return codeRepository.findById(uuid).orElseThrow();
     }
 
     @PostMapping(path = "/api/code/new", consumes = "application/json")
     public ResponseEntity<String> postNewCode(@RequestBody CodeDTO codeDTO) {
-        int id = codeRepository.save(new CodeSnippet(codeDTO.getCode())).getId();
-        return ResponseEntity.ok().headers(HTML_HTTP_HEADER).body("{ \"id\" : \"" + id + "\" }");
+        String uuid = codeRepository.save(new CodeSnippet(codeDTO.getCode())).getUuid().toString();
+        return ResponseEntity.ok().headers(HTML_HTTP_HEADER).body("{ \"uuid\" : \"" + uuid + "\" }");
     }
 
     @GetMapping(path = "/api/code/latest")

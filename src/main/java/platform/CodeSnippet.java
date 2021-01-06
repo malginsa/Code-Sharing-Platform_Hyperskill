@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.UUID;
 
 import static javax.persistence.GenerationType.AUTO;
 
@@ -18,7 +19,7 @@ public class CodeSnippet {
 
     @Id
     @GeneratedValue(strategy = AUTO)
-    private int id;
+    private UUID uuid;
 
     private String code;
 
@@ -28,23 +29,21 @@ public class CodeSnippet {
     }
 
     public CodeSnippet(String code, LocalDateTime date) {
-        this.id = id;
         this.code = code;
         this.date = date;
     }
 
     public CodeSnippet(String code) {
-        this.id = id;
         this.code = code;
         this.date = LocalDateTime.now();
     }
 
-    public int getId() {
-        return id;
+    public UUID getUuid() {
+        return uuid;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
     }
 
     public String getCode() {
@@ -70,9 +69,11 @@ public class CodeSnippet {
     @Override
     public String toString() {
         return "CodeSnippet{" +
-                "id=" + id +
+                "uuid=" + uuid +
                 ", code='" + code + '\'' +
                 ", date=" + date +
+//                ", views=" + views +
+//                ", expiration=" + expiration +
                 '}';
     }
 }
