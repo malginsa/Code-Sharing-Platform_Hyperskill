@@ -9,7 +9,19 @@
     <script>hljs.initHighlightingOnLoad();</script>
 </head>
 <body>
-    <pre id="code_snippet"><code>${code}</code></pre>
     <span id="load_date">${date}</span>
+    <br>
+
+    <#if isRestrictedByTime == true>
+    <span id="views_restriction">${views} more views allowed</span>
+    <br>
+    </#if>
+
+    <#if isRestrictedByViews == true>
+    <span id="time_restriction">The code will be available for ${time} seconds</span>
+    <br>
+    </#if>
+
+    <pre id="code_snippet"><code>${code}</code></pre>
 </body>
 </html>

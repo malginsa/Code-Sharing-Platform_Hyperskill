@@ -8,17 +8,19 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 @Component
-public class CodeSerializer extends StdSerializer<CodeSnippet> {
+public class CodeSnippetSerializer extends StdSerializer<CodeSnippet> {
 
-    public CodeSerializer() { this(null); }
+    public CodeSnippetSerializer() { this(null); }
 
-    public CodeSerializer(Class<CodeSnippet> t) { super(t); }
+    public CodeSnippetSerializer(Class<CodeSnippet> t) { super(t); }
 
     @Override
     public void serialize(CodeSnippet codeSnippet, JsonGenerator gen, SerializerProvider provider) throws IOException {
         gen.writeStartObject();
         gen.writeStringField("code", codeSnippet.getCode());
         gen.writeStringField("date", codeSnippet.getFormattedDate());
+        gen.writeNumberField("time", Long.max(codeSnippet.getRemainingSeconds(), 0));
+        gen.writeNumberField("views", codeSnippet.getViews());
         gen.writeEndObject();
     }
 }

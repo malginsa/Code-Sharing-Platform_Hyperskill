@@ -16,10 +16,14 @@ public class HtmlCodeController {
 
     @GetMapping(path = "/code/{uuid}")
     public String test(@PathVariable UUID uuid, ModelMap model) {
-        CodeSnippet codeSnippet = codeRepository.findById(uuid).orElseThrow();
-        model.addAttribute("code", codeSnippet.getCode());
-        model.addAttribute("date", codeSnippet.getFormattedDate());
-        return "singlecode";
+        CodeSnippet codeSnippet = codeRepository.findById(uuid).orElseThrow(NotFoundStatusException::new);
+        if (codeSnippet.isAvailable()) {
+            codeSnippet = codeRepository.decreaseViews(codeSnippet);
+            model = populateModel(model, codeSnippet);
+            return "singlecode";
+        } else {
+            throw new NotFoundStatusException();
+        }
     }
 
     @GetMapping(path = "/code/new")
@@ -29,7 +33,19 @@ public class HtmlCodeController {
 
     @GetMapping(path = "/code/latest")
     public String getTenLatest(ModelMap model) {
-        model.addAttribute("codes", codeRepository.findTop10ByOrderByDateDesc());
+        model.addAttribute("codes",
+                codeRepository.findTop10ByIsRestrictedByTimeFalseAndIsRestrictedByViewsFalseOrderByDateDesc());
         return "listofcodes";
     }
+
+    private ModelMap populateModel(ModelMap model, CodeSnippet codeSnippet) {
+        model.addAttribute("code", codeSnippet.getCode());
+        model.addAttribute("date", codeSnippet.getFormattedDate());
+        model.addAttribute("isRestrictedByTime", codeSnippet.isRestrictedByTime());
+        model.addAttribute("time", codeSnippet.getRemainingSeconds());
+        model.addAttribute("isRestrictedByViews", codeSnippet.isRestrictedByViews());
+        model.addAttribute("views", codeSnippet.getViews());
+        return model;
+    }
+
 }

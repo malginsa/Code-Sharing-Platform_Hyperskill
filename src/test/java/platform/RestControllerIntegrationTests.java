@@ -33,8 +33,8 @@ class RestControllerIntegrationTests {
 	public static final String API_CODE_PATH = "api/code/";
 	public static final String CODE_LATEST_PATH = "code/latest";
 	public static final String API_CODE_LATEST_PATH = "api/code/latest";
-	public static final String CODE_SAMPLE_1 = "Perfect Code!";
-	public static final String CODE_SAMPLE_2 = "Wonder Code!";
+	public static final String CODE_SAMPLE_1 = "Code sample 1";
+	public static final String CODE_SAMPLE_2 = "Code sample 2";
 
 	@LocalServerPort
 	private int port;
@@ -59,7 +59,8 @@ class RestControllerIntegrationTests {
 		String uuid = getIdFromResponse(response);
 		String expectedDate = codeRepository.findById(UUID.fromString(uuid)).orElseThrow().getFormattedDate();
 		response = sendGetRequest(API_CODE_PATH + uuid, APPLICATION_JSON);
-		assertThat(response.body()).isEqualTo("{\"code\":\"" + CODE_SAMPLE_1 + "\",\"date\":\"" + expectedDate + "\"}");
+		assertThat(response.body()).isEqualTo(
+				"{\"code\":\"Code sample 1\",\"date\":\"" + expectedDate + "\",\"time\":0,\"views\":0}");
 		response = sendGetRequest("code/" + uuid, "text/html;charset=UTF-8");
 		String body = response.body();
 		checkPatternMatch(CODE_SNIPPET, body, CODE_SAMPLE_1);

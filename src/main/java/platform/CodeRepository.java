@@ -9,6 +9,14 @@ public interface CodeRepository extends CrudRepository<CodeSnippet, UUID> {
 
     void deleteAll();
 
-    List<CodeSnippet> findTop10ByOrderByDateDesc();
+    List<CodeSnippet> findTop10ByIsRestrictedByTimeFalseAndIsRestrictedByViewsFalseOrderByDateDesc();
 
+    default CodeSnippet decreaseViews(CodeSnippet codeSnippet) {
+        if(codeSnippet.getViews() > 0) {
+            codeSnippet.decreaseViews();
+            return save(codeSnippet);
+        } else {
+            return codeSnippet;
+        }
+    }
 }
