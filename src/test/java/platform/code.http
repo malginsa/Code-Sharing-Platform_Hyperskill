@@ -3,7 +3,7 @@ POST http://127.0.0.1:8889/api/code/new
 Content-Type: application/json
 Cache-Control: no-cache
 
-{ "code": "Code2", "time": "0", "views":  "0"}
+{ "code": "Code1", "time": "0", "views":  "0"}
 
 ###
 POST http://127.0.0.1:8889/api/code/new

@@ -38,7 +38,7 @@ class RestControllerTests {
 				.content("{\"code\":\"Perfect code!\"}"))
 				.andExpect(status().isOk())
 				.andExpect(result ->
-						assertThat(getIdDTO(result.getResponse().getContentAsString(), UuidDto.class).isIdValid())
+						assertThat(getIdDTO(result.getResponse().getContentAsString(), IdDto.class).isIdValid())
 								.isTrue());
 	}
 

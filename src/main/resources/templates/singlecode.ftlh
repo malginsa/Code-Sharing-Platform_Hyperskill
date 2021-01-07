@@ -12,12 +12,12 @@
     <span id="load_date">${date}</span>
     <br>
 
-    <#if isRestrictedByTime == true>
+    <#if isRestrictedByViews == true>
     <span id="views_restriction">${views} more views allowed</span>
     <br>
     </#if>
 
-    <#if isRestrictedByViews == true>
+    <#if isRestrictedByTime == true>
     <span id="time_restriction">The code will be available for ${time} seconds</span>
     <br>
     </#if>

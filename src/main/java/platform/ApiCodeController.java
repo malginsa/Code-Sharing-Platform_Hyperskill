@@ -34,7 +34,7 @@ public class ApiCodeController {
     @PostMapping(path = "/api/code/new", consumes = "application/json")
     public ResponseEntity<String> postNewCode(@RequestBody CodeDTO codeDTO) {
         String uuid = codeRepository.save(new CodeSnippet(codeDTO)).getUuid().toString();
-        return ResponseEntity.ok().headers(HTML_HTTP_HEADER).body("{ \"uuid\" : \"" + uuid + "\" }");
+        return ResponseEntity.ok().headers(HTML_HTTP_HEADER).body("{ \"id\" : \"" + uuid + "\" }");
     }
 
     @GetMapping(path = "/api/code/latest")

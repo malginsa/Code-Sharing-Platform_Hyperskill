@@ -90,7 +90,7 @@ class RestControllerIntegrationTests {
 
 	private String getIdFromResponse(HttpResponse<String> response) {
 		JSONObject jsonObject = new JSONObject(response.body());
-		return jsonObject.getString("uuid");
+		return jsonObject.getString("id");
 	}
 
 	private List<String> getElementsByClassFromHtml(HttpResponse<String> response, String className) {

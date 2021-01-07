@@ -2,20 +2,20 @@ package platform;
 
 import java.util.UUID;
 
-public class UuidDto {
-    private String uuid;
+public class IdDto {
+    private String id;
 
-    public String getUuid() {
-        return uuid;
+    public String getId() {
+        return id;
     }
 
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public boolean isIdValid() {
         try {
-            UUID.fromString(uuid);
+            UUID.fromString(id);
         } catch (IllegalArgumentException e) {
             return false;
         }
